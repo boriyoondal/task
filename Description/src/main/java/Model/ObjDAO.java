@@ -51,7 +51,7 @@ public class ObjDAO {
 	}
 	
 	//Object List 출력하는 ArrayList
-	public ArrayList<ObjVO> bioObjList() {
+public ArrayList<ObjVO> bioObjList() {
 		
 		try {
 
@@ -120,15 +120,15 @@ public class ObjDAO {
 	      return oal;
 	   }
 	
-	public ArrayList<ObjVO> obj_one_info() {
+	public ArrayList<ObjVO> obj_one_info(String object_id) {
 	      ObjVO vo = null;
 	      ArrayList<ObjVO> oal = new ArrayList<ObjVO>();
 	      try {
 	         connection();
 
-	         String sql = "select current_dt, drinking, feed, activity from IntFlow group by current_dt";
+	         String sql = "select current_dt, drinking, feed, activity from IntFlow where object_id=? order by current_dt asc";
 	         psmt = conn.prepareStatement(sql);
-
+	         psmt.setString(1, object_id);
 	         rs = psmt.executeQuery();
 
 	         while (rs.next()) {
@@ -151,23 +151,25 @@ public class ObjDAO {
 	      return oal;
 	   }
 	
-	public ObjVO Obj_selectONE(String Object_id) {
+	public ObjVO Obj_selectONE(String camera_id) {
 
 		try {
 			connection();
 
-			String sql = "select Object_id from IntFlow";
+			String sql = "select distinct object_id from IntFlow where camera_id=?";
 			
 			psmt = conn.prepareStatement(sql);
+			
+			psmt.setString(1, camera_id);
 			
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
 
-				String getObject_id = rs.getString("Object_id");
+				String getCamera_id= rs.getString("camera_id");
 
 
-				vo = new ObjVO(getObject_id);
+				vo = new ObjVO(getCamera_id);
 
 			}
 

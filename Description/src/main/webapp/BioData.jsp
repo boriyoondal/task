@@ -194,8 +194,9 @@ ObjVO ovo = new ObjVO();
 BioVO vo = new BioVO();
 BioDAO dao = new BioDAO();
 ObjDAO odao = new ObjDAO();
-ObjVO o_vo = odao.Obj_selectONE("Object_id");
+ObjVO o_vo = odao.Obj_selectONE("camera_id");
 String object_id = request.getParameter("object_id");
+String camera_id = request.getParameter("camera_id");
 
 ArrayList<BioVO> bioCamList = dao.bioCamList();
 ArrayList<ObjVO> bioObjList = odao.bioObjList();
@@ -239,7 +240,7 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 				<div id="framecss"
 					style="display: inline-block; float: right; border: none;">
 					<img src="./images/logo.png" width="100%" height="40%"
-						style="margin-top: 15%;">
+						style="margin-top: 15%; position:relative;">
 				</div>
 			</div>
 			<!-- 동영상 송출 부분 끝 -->
@@ -249,26 +250,45 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 				<div id="camList_div">
 					<button type="button" class="camList">전체 카메라</button>
 					<br>
+					
 					<%
 					for (int i = 0; i < bioCamList.size(); i++) {
 					%>
-					<button type="button" class="camList"><%=bioCamList.get(i).getCamera_id()%>번 카메라</button>
+					<button type="button" class="camList" value="<%=bioCamList.get(i).getCamera_id()%>"><%=bioCamList.get(i).getCamera_id()%>번 카메라</button>
 					<br>
 					<%
 					}
 					%>
+
 				</div>
 			</div>
 
 			<div id="objList">
 				<h2 style="text-align : center; margin-top : 12%">개체 목록</h2>
-				<div id="objList_div">
+				<div id="objList_div" style="display : none;">
 					<button type="button" class="objList">전체 개체</button>
 					<br>
+<%-- 					<% 
+					for (int i = 0; i < bioCamList.size(); i++) {
+					%>
+					<%if(bioCamList.get(i).getCamera_id()==1){ %>
+	
+					<button type="button" class="objList"><%=o_vo.getObject_id()%>번 개체</button>
+					<br>
+
+					<% }else if(bioCamList.get(i).getCamera_id()==2){%> 
+					<button type="button" class="objList"><%=o_vo.getObject_id()%>번 개체</button>
+					<br>
+
+					<% }else if(bioCamList.get(i).getCamera_id()==3){%> 
+					<button type="button" class="objList"><%=o_vo.getObject_id()%>번 개체</button>
+					<br>
+					<% } %> 
+					<%} %> --%>
 					<%
 					for (int i = 0; i < bioObjList.size(); i++) {
 					%>
-					<button type="button" class="objList"><%=bioObjList.get(i).getObject_id()%>번 개체</button>
+					<button type="button" class="objList" value="<%=bioObjList.get(i).getObject_id()%>"><%=bioObjList.get(i).getObject_id()%>번 개체</button>
 					<br>
 					<%
 					}
@@ -278,50 +298,13 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 			<!-- 그래프 -->
 			<div id="graph">
 				<div>
-					<canvas id="curve_chart"
-						style="position: relative; width: 100%; height: 100%;">
-      </canvas>
+					<canvas id="curve_chart" style="position: relative; width: 100%; height: 100%;"></canvas>
 				</div>
 			</div>
 			<!-- 그래프 끝 -->
 		</section>
 	</div>
 </body>
-
-<!-- 클릭 시 카메라 번호 변경 JS -->
-<script>
-   $(".camList").on('click', function(){
-      var camNum = $(this).text();
-      console.log(camNum);
-      if(camNum=='1번 카메라'){
-         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/EUZ8YUxhMNM?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
-         $("#stream").replaceWith(str);
-      }else if(camNum=='2번 카메라'){
-         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/W9Ot_I3pb20?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
-         $("#stream").replaceWith(str);
-      }else if(camNum=='3번 카메라'){
-         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/N9oz7MOS5tI?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
-         $("#stream").replaceWith(str);
-      }else if(camNum=='전체 카메라'){
-         var str="<div id='stream'><div id='framecss'><iframe src='https://www.youtube.com/embed/EUZ8YUxhMNM' title='streaming' width='100%' height='100%' style=' float : left;'></iframe></div>"+
-            "<div id='framecss'><iframe src='https://www.youtube.com/embed/W9Ot_I3pb20' title='streaming' width='100%' height='100%' style=' float : left;'></iframe></div>"+
-            "<div id='framecss'><iframe src='https://www.youtube.com/embed/N9oz7MOS5tI' title='streaming' width='100%' height='100%' style=' float : right;'></iframe></div>"+
-            "<div id='framecss' style='display:inline-block; float:right; border:none;''><img src='./images/logo.png' width='100%' height='40%' style='margin-top:15%;'></div></div>"
-            $("#stream").replaceWith(str);
-      }
-   });
-</script>
-
-<!-- <script>
-	$(".objList").on('click', function(){
-		var objNum = $(this).text();
-		console.log(objNum);
- 		if(objNum=='1번 개체'){
-			
-		} 
-	});
-</script> -->
-
 <!-- 클릭 시 클릭된 부분 UI 변경 JS -->
 <script>
 var camList = document.getElementsByClassName("camList");
@@ -368,9 +351,18 @@ function init(){
 		objList[i].addEventListener("click",handleClick);
 	}
 }
+
 init();
 </script>
+<script>
+$('.camList').click(function(event){
+		console.log('클릭 됨');
+ 		var camListval = event.target.value;
+ 		console.log(event.target.value);
+ 		console.log(camListval);
 
+	});
+</script>
 <!-- 시계열 데이터 ajax -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -379,7 +371,7 @@ init();
         type : 'get',
         dataType : 'json',
         success : function(res){
-      	let labels = res.reverse().map(item => item.current_dt);
+      	let labels = res.map(item => item.current_dt);
         let activity = res.map(item => item.activity);
         let feed = res.map(item => item.feed);
         let drinking = res.map(item => item.drinking);
@@ -421,6 +413,7 @@ init();
             document.getElementById('curve_chart'),
             config
       );
+	
         },
          error : function(){
             alert('차트 로딩 실패');
@@ -430,28 +423,93 @@ init();
 <script src="./js/Clock.js"></script>
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+$('.objList').click(function(event){
 	
-<!-- 차트 그려지는 JS -->
-<!-- <script type="text/javascript">
-   
-   function chart(dataArray) {
-      google.charts.load('current', {
-         'packages' : [ 'corechart' ]
-      });
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-         var data = google.visualization.arrayToDataTable(dataArray);
-         var options = {
-            title : '개체 변화 그래프',
-            curveType : 'function',
-            legend : {
-            position : 'bottom'
-            }
-         };
-         var chart = new google.visualization.LineChart(document
-               .getElementById('curve_chart'));
-         chart.draw(data, options);
-         }
+	var objListval = event.target.value;
+	console.log(objListval);
+
+	$('#curve_chart').remove();
+	$('#graph').append('<canvas id="curve_chart" style="position: relative; width: 100%; height: 100%;"><canvas>');
+	
+	   $.ajax({
+	        url : 'AjaxChart_selectONE',
+	        type : 'get',
+	        data : {'object_id' : objListval },
+	        dataType : 'json',
+	        success : function(res){
+	      	let labels = res.reverse().map(item => item.current_dt);
+	        let activity = res.map(item => item.activity);
+	        let feed = res.map(item => item.feed);
+	        let drinking = res.map(item => item.drinking);
+	      	console.log(drinking);
+
+	         const data = {
+	               labels: labels,
+	                 datasets: [{
+	                     data: activity,
+	                     label:"활동량",
+	                     fill: false,
+	                     borderColor: 'blue',
+	                     borderWidth: 2,
+	                     tension: 0.1,
+	                 },{ 
+	                     data: feed,
+	                     label:"취식량",
+	                     fill: false,
+	                     borderColor: 'red',
+	                     borderWidth: 2,
+	                     tension: 0.1,
+	                },{ 
+	                     data: drinking,
+	                     label:"음수량",
+	                     fill: false,
+	                     borderColor: 'green',
+	                     borderWidth: 2,
+	                     tension: 0.1,
+	                  }]
+	         };
+
+	      const config = {
+	         type: 'line',
+	         data: data,
+	         options: {responsive:false}
+	      };
+	        const myChart = new Chart(
+	        		document.getElementById('curve_chart'),
+	            config
+	      );
+	        },
+	         error : function(){
+	            alert('차트 로딩 실패');
+	         }       
+	      });	
+});
+</script>
+<!-- 클릭 시 카메라 번호 변경 JS -->
+<script>
+   $(".camList").on('click', function(){
+	  $("#objList_div").show();
+      var camNum = $(this).text();
+      console.log(camNum);
+      if(camNum=='1번 카메라'){
+         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/EUZ8YUxhMNM?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
+         $("#stream").replaceWith(str);
+      }else if(camNum=='2번 카메라'){
+         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/W9Ot_I3pb20?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
+         $("#stream").replaceWith(str);
+      }else if(camNum=='3번 카메라'){
+         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/N9oz7MOS5tI?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
+         $("#stream").replaceWith(str);
+      }else if(camNum=='전체 카메라'){
+         var str="<div id='stream'><div id='framecss'><iframe src='https://www.youtube.com/embed/EUZ8YUxhMNM' title='streaming' width='100%' height='100%' style=' float : left;'></iframe></div>"+
+            "<div id='framecss'><iframe src='https://www.youtube.com/embed/W9Ot_I3pb20' title='streaming' width='100%' height='100%' style=' float : left;'></iframe></div>"+
+            "<div id='framecss'><iframe src='https://www.youtube.com/embed/N9oz7MOS5tI' title='streaming' width='100%' height='100%' style=' float : right;'></iframe></div>"+
+            "<div id='framecss' style='display:inline-block; float:right; border:none;''><img src='./images/logo.png' width='100%' height='40%' style='margin-top:15%;'></div></div>"
+            $("#stream").replaceWith(str);
       }
-   </script> -->
+      
+   });
+</script>
+
 </html>
