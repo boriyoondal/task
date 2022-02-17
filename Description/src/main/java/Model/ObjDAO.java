@@ -89,72 +89,67 @@ public class ObjDAO {
 		}	
 	
 	
-	public ArrayList<ObjVO> obj_info(String object_id) {
-		ObjVO vo = null;
-		ArrayList<ObjVO> oal = new ArrayList<ObjVO>();
-		try {
-			connection();
-
-			String sql = "select drinking,feed,activity from IntFlow where object_id = ?";
-			
-			psmt = conn.prepareStatement(sql);
-			
-			psmt.setString(1, object_id);
-
-			rs = psmt.executeQuery();
-
-			while (rs.next()) {
-
-				String getObject_id = rs.getString("object_id");
-				String getDrinking = rs.getString("drinking");
-				String getFeed = rs.getString("feed");
-				String getActivity = rs.getString("activity");
-
-				vo = new ObjVO(getObject_id,getDrinking,getFeed,getActivity);
-				oal.add(vo);
-			}
-
-		} catch (Exception e) {
-			System.out.println("조회실패");
-			e.printStackTrace();
-
-		} finally {
-			close();
-		}
-		return oal;
-	}
-	
 	public ArrayList<ObjVO> obj_info() {
-		ObjVO vo = null;
-		ArrayList<ObjVO> oal = new ArrayList<ObjVO>();
-		try {
-			connection();
+	      ObjVO vo = null;
+	      ArrayList<ObjVO> oal = new ArrayList<ObjVO>();
+	      try {
+	         connection();
 
-			String sql = "select drinking,feed,activity from IntFlow";
-			
-			psmt = conn.prepareStatement(sql);
+	         String sql = "select current_dt,avg(drinking) drinking,avg(feed) feed,avg(activity) activity from IntFlow group by current_dt";
+	         psmt = conn.prepareStatement(sql);
 
-			rs = psmt.executeQuery();
+	         rs = psmt.executeQuery();
 
-			while (rs.next()) {
+	         while (rs.next()) {
+	            String getcurrent_dt = rs.getString("current_dt");
+	            String getDrinking = rs.getString("drinking");
+	            String getFeed = rs.getString("feed");
+	            String getActivity = rs.getString("activity");
 
-				String getDrinking = rs.getString("drinking");
-				String getFeed = rs.getString("feed");
-				String getActivity = rs.getString("activity");
+	            vo = new ObjVO(getcurrent_dt,getDrinking,getFeed,getActivity);
+	            oal.add(vo);
+	         }
 
-				vo = new ObjVO(getDrinking,getFeed,getActivity);
-				oal.add(vo);
-			}
+	      } catch (Exception e) {
+	         System.out.println("SQL 통과 실패");
+	         e.printStackTrace();
 
-		} catch (Exception e) {
-			System.out.println("조회실패");
-			e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      return oal;
+	   }
+	
+	public ArrayList<ObjVO> obj_one_info() {
+	      ObjVO vo = null;
+	      ArrayList<ObjVO> oal = new ArrayList<ObjVO>();
+	      try {
+	         connection();
 
-		} finally {
-			close();
-		}
-		return oal;
-	}
+	         String sql = "select current_dt, drinking, feed, activity from IntFlow group by current_dt";
+	         psmt = conn.prepareStatement(sql);
+
+	         rs = psmt.executeQuery();
+
+	         while (rs.next()) {
+	            String getcurrent_dt = rs.getString("current_dt");
+	            String getDrinking = rs.getString("drinking");
+	            String getFeed = rs.getString("feed");
+	            String getActivity = rs.getString("activity");
+
+	            vo = new ObjVO(getcurrent_dt,getDrinking,getFeed,getActivity);
+	            oal.add(vo);
+	         }
+
+	      } catch (Exception e) {
+	         System.out.println("SQL 통과 실패");
+	         e.printStackTrace();
+
+	      } finally {
+	         close();
+	      }
+	      return oal;
+	   }
 	
 	public ObjVO Obj_selectONE(String Object_id) {
 
@@ -172,7 +167,7 @@ public class ObjDAO {
 				String getObject_id = rs.getString("Object_id");
 
 
-				vo = new ObjVO(Object_id);
+				vo = new ObjVO(getObject_id);
 
 			}
 

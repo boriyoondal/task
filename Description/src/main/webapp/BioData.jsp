@@ -370,61 +370,69 @@ function init(){
 }
 init();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <!-- 시계열 데이터 ajax -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-$(function(){
-	
-	$(".objList").on("click",getData);
-});
+   $.ajax({
+        url : 'AjaxChart',
+        type : 'get',
+        dataType : 'json',
+        success : function(res){
+      	let labels = res.reverse().map(item => item.current_dt);
+        let activity = res.map(item => item.activity);
+        let feed = res.map(item => item.feed);
+        let drinking = res.map(item => item.drinking);
+      	console.log(drinking);
 
-	function getData(){
-	
-$.ajax({         
-    url : 'AjaxChart',
-    type : 'get',
-    data : {'object_id' : '<%=ovo.getObject_id()%>'},
-    dataType : 'json',
-    success : function(res){
-    let labels = res.reverse().map(item => item.current_dt);  	
-    let values = res.map(item => item.drinking);
-/*     let tvalues = values.reverse().map(item => item.drinking); */
-    console.log(labels);
-    const data = {
-         labels: labels,
-         datasets: [{ 
-           data: values,
-          label:"음수량",
-           fill: false,
-          borderColor: 'red',
-          borderWidth: 2,
-          tension: 0.1,            
-         }]
-    };
-    const config = {
+         const data = {
+               labels: labels,
+                 datasets: [{
+                     data: activity,
+                     label:"활동량",
+                     fill: false,
+                     borderColor: 'blue',
+                     borderWidth: 2,
+                     tension: 0.1,
+                 },{ 
+                     data: feed,
+                     label:"취식량",
+                     fill: false,
+                     borderColor: 'red',
+                     borderWidth: 2,
+                     tension: 0.1,
+                },{ 
+                     data: drinking,
+                     label:"음수량",
+                     fill: false,
+                     borderColor: 'green',
+                     borderWidth: 2,
+                     tension: 0.1,
+                  }]
+         };
+
+      const config = {
          type: 'line',
-         data: data
-    };
-    
-    const myChart = new Chart(
-        document.getElementById('curve_chart'),
-        config
+         data: data,
+         options: {responsive:false}
+      };
+
+        const myChart = new Chart(
+            document.getElementById('curve_chart'),
+            config
       );
-    },
-    error : function(){
-       alert('차트 로딩 실패');
-    }
-    
- });
-}
+        },
+         error : function(){
+            alert('차트 로딩 실패');
+         }       
+      });
 </script>
 <script src="./js/Clock.js"></script>
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 	
 <!-- 차트 그려지는 JS -->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
    
    function chart(dataArray) {
       google.charts.load('current', {
@@ -434,7 +442,7 @@ $.ajax({
       function drawChart() {
          var data = google.visualization.arrayToDataTable(dataArray);
          var options = {
-            title : '음수량 변화 그래프',
+            title : '개체 변화 그래프',
             curveType : 'function',
             legend : {
             position : 'bottom'
@@ -445,5 +453,5 @@ $.ajax({
          chart.draw(data, options);
          }
       }
-   </script>
+   </script> -->
 </html>

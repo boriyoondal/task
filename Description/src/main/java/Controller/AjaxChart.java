@@ -24,9 +24,6 @@ public class AjaxChart extends HttpServlet {
 
 		response.setCharacterEncoding("utf-8");
 		
-		String current_dt = request.getParameter("current_dt");
-		String drinking = request.getParameter("drinking");
-		
 		ObjDAO odao = new ObjDAO();
 		ArrayList<ObjVO> oal = odao.obj_info();
 		
