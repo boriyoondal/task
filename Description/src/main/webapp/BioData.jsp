@@ -246,7 +246,7 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 			<!-- 동영상 송출 부분 끝 -->
 
 			<div id="camList">
-				<h2 style="text-align : center; margin-top:12%">카메라 목록</h2>
+				<h2 style="text-align : center; margin-top:8%">카메라 목록</h2>
 				<div id="camList_div">
 					<button type="button" class="camList" value="all_cam">전체 카메라</button>
 					<br>
@@ -264,7 +264,7 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 			</div>
 
 			<div id="objList">
-				<h2 style="text-align : center; margin-top : 12%">개체 목록</h2>
+				<h2 style="text-align : center; margin-top : 8%">개체 목록</h2>
 				<div id="objList_div" style="display : none;">
 					<button type="button" class="objList" value="all_obj">전체 개체</button>
 					<br>
@@ -276,23 +276,6 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 					<%
 					}
 					%>
-					<%-- <% 
-					for (int i = 0; i < bioCamList.size(); i++) {
-					%>
-					<%if(bioCamList.get(i).getCamera_id()=="1"){ %>
-	
-					<button type="button" class="objList"><%=o_vo.get(i).getObject_id()%>번 개체</button>
-					<br>
-
-					<% }else if(bioCamList.get(i).getCamera_id()=="2"){ %> 
-					<button type="button" class="objList"><%=o_vo.get(i).getObject_id()%>번 개체</button>
-					<br>
-
-					<% }else if(bioCamList.get(i).getCamera_id()=="3"){%> 
-					<button type="button" class="objList"><%=o_vo.get(i).getObject_id() %>번 개체</button>
-					<br>
-					<% } %> 
-					<%} %>  --%>
 
 				</div>
 			</div>
@@ -362,14 +345,15 @@ $('.camList').click(function(event){
  		var camListval = event.target.value;
  		console.log(event.target.value);
  		console.log(camListval);
-	
+/* 	
  		if(camListval == 1){
  			
  		}else if(camListval == 2){
  			
  		}else if(camListval == 3){
  			
- 		}
+ 		} */
+
 	});
 </script>
 <!-- 시계열 데이터 ajax -->
@@ -394,21 +378,21 @@ $('.camList').click(function(event){
                      fill: false,
                      borderColor: 'blue',
                      borderWidth: 2,
-                     tension: 0.1,
+                     tension: 0.5,
                  },{ 
                      data: feed,
                      label:"취식량",
                      fill: false,
                      borderColor: 'red',
                      borderWidth: 2,
-                     tension: 0.1,
+                     tension: 0.5,
                 },{ 
                      data: drinking,
                      label:"음수량",
                      fill: false,
                      borderColor: 'green',
                      borderWidth: 2,
-                     tension: 0.1,
+                     tension: 0.5,
                   }]
          };
 
@@ -462,21 +446,21 @@ $('.objList').click(function(event){
 		                     fill: false,
 		                     borderColor: 'blue',
 		                     borderWidth: 2,
-		                     tension: 0.1,
+		                     tension: 0.5,
 		                 },{ 
 		                     data: feed,
 		                     label:"취식량",
 		                     fill: false,
 		                     borderColor: 'red',
 		                     borderWidth: 2,
-		                     tension: 0.1,
+		                     tension: 0.5,
 		                },{ 
 		                     data: drinking,
 		                     label:"음수량",
 		                     fill: false,
 		                     borderColor: 'green',
 		                     borderWidth: 2,
-		                     tension: 0.1,
+		                     tension: 0.5,
 		                  }]
 		         };
 
@@ -517,21 +501,21 @@ $('.objList').click(function(event){
 	                     fill: false,
 	                     borderColor: 'blue',
 	                     borderWidth: 2,
-	                     tension: 0.1,
+	                     tension: 0.5,
 	                 },{ 
 	                     data: feed,
 	                     label:"취식량",
 	                     fill: false,
 	                     borderColor: 'red',
 	                     borderWidth: 2,
-	                     tension: 0.1,
+	                     tension: 0.5,
 	                },{ 
 	                     data: drinking,
 	                     label:"음수량",
 	                     fill: false,
 	                     borderColor: 'green',
 	                     borderWidth: 2,
-	                     tension: 0.1,
+	                     tension: 0.5,
 	                  }]
 	         };
 

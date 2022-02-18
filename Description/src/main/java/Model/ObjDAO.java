@@ -177,7 +177,7 @@ public ArrayList<ObjVO> bioObjList() {
 			}
 
 		} catch (Exception e) {
-			System.out.println("조회실패");
+			System.out.println("SQL 통과 실패");
 			e.printStackTrace();
 
 		} finally {
