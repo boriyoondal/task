@@ -194,7 +194,7 @@ ObjVO ovo = new ObjVO();
 BioVO vo = new BioVO();
 BioDAO dao = new BioDAO();
 ObjDAO odao = new ObjDAO();
-ObjVO o_vo = odao.Obj_selectONE("camera_id");
+ArrayList<ObjVO> o_vo = odao.Obj_selectONE("camera_id");
 String object_id = request.getParameter("object_id");
 String camera_id = request.getParameter("camera_id");
 
@@ -248,7 +248,7 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 			<div id="camList">
 				<h2 style="text-align : center; margin-top:12%">카메라 목록</h2>
 				<div id="camList_div">
-					<button type="button" class="camList">전체 카메라</button>
+					<button type="button" class="camList" value="all_cam">전체 카메라</button>
 					<br>
 					
 					<%
@@ -266,25 +266,8 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 			<div id="objList">
 				<h2 style="text-align : center; margin-top : 12%">개체 목록</h2>
 				<div id="objList_div" style="display : none;">
-					<button type="button" class="objList">전체 개체</button>
+					<button type="button" class="objList" value="all_obj">전체 개체</button>
 					<br>
-<%-- 					<% 
-					for (int i = 0; i < bioCamList.size(); i++) {
-					%>
-					<%if(bioCamList.get(i).getCamera_id()==1){ %>
-	
-					<button type="button" class="objList"><%=o_vo.getObject_id()%>번 개체</button>
-					<br>
-
-					<% }else if(bioCamList.get(i).getCamera_id()==2){%> 
-					<button type="button" class="objList"><%=o_vo.getObject_id()%>번 개체</button>
-					<br>
-
-					<% }else if(bioCamList.get(i).getCamera_id()==3){%> 
-					<button type="button" class="objList"><%=o_vo.getObject_id()%>번 개체</button>
-					<br>
-					<% } %> 
-					<%} %> --%>
 					<%
 					for (int i = 0; i < bioObjList.size(); i++) {
 					%>
@@ -293,6 +276,24 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 					<%
 					}
 					%>
+					<%-- <% 
+					for (int i = 0; i < bioCamList.size(); i++) {
+					%>
+					<%if(bioCamList.get(i).getCamera_id()=="1"){ %>
+	
+					<button type="button" class="objList"><%=o_vo.get(i).getObject_id()%>번 개체</button>
+					<br>
+
+					<% }else if(bioCamList.get(i).getCamera_id()=="2"){ %> 
+					<button type="button" class="objList"><%=o_vo.get(i).getObject_id()%>번 개체</button>
+					<br>
+
+					<% }else if(bioCamList.get(i).getCamera_id()=="3"){%> 
+					<button type="button" class="objList"><%=o_vo.get(i).getObject_id() %>번 개체</button>
+					<br>
+					<% } %> 
+					<%} %>  --%>
+
 				</div>
 			</div>
 			<!-- 그래프 -->
@@ -356,11 +357,19 @@ init();
 </script>
 <script>
 $('.camList').click(function(event){
+	
 		console.log('클릭 됨');
  		var camListval = event.target.value;
  		console.log(event.target.value);
  		console.log(camListval);
-
+	
+ 		if(camListval == 1){
+ 			
+ 		}else if(camListval == 2){
+ 			
+ 		}else if(camListval == 3){
+ 			
+ 		}
 	});
 </script>
 <!-- 시계열 데이터 ajax -->
@@ -427,18 +436,74 @@ $('.camList').click(function(event){
 $('.objList').click(function(event){
 	
 	var objListval = event.target.value;
+	console.log(event.target.value);
 	console.log(objListval);
 
 	$('#curve_chart').remove();
-	$('#graph').append('<canvas id="curve_chart" style="position: relative; width: 100%; height: 100%;"><canvas>');
+	$('#graph').append('<canvas id="curve_chart"style="position: relative; width: 100%; height: 100%;"><canvas>');
 	
+	if(objListval == 'all_obj'){
+		 $.ajax({
+		        url : 'AjaxChart',
+		        type : 'get',
+		        dataType : 'json',
+		        success : function(res){
+		      	let labels = res.map(item => item.current_dt);
+		        let activity = res.map(item => item.activity);
+		        let feed = res.map(item => item.feed);
+		        let drinking = res.map(item => item.drinking);
+		      	console.log(drinking);
+
+		         const data = {
+		               labels: labels,
+		                 datasets: [{
+		                     data: activity,
+		                     label:"활동량",
+		                     fill: false,
+		                     borderColor: 'blue',
+		                     borderWidth: 2,
+		                     tension: 0.1,
+		                 },{ 
+		                     data: feed,
+		                     label:"취식량",
+		                     fill: false,
+		                     borderColor: 'red',
+		                     borderWidth: 2,
+		                     tension: 0.1,
+		                },{ 
+		                     data: drinking,
+		                     label:"음수량",
+		                     fill: false,
+		                     borderColor: 'green',
+		                     borderWidth: 2,
+		                     tension: 0.1,
+		                  }]
+		         };
+
+		      const config = {
+		         type: 'line',
+		         data: data,
+		         options: {responsive:false}
+		      };
+
+		        const myChart = new Chart(
+		            document.getElementById('curve_chart'),
+		            config
+		      );
+			
+		        },
+		         error : function(){
+		            alert('차트 로딩 실패');
+		         }       
+		      });
+	}else{
 	   $.ajax({
 	        url : 'AjaxChart_selectONE',
 	        type : 'get',
 	        data : {'object_id' : objListval },
 	        dataType : 'json',
 	        success : function(res){
-	      	let labels = res.reverse().map(item => item.current_dt);
+	      	let labels = res.map(item => item.current_dt);
 	        let activity = res.map(item => item.activity);
 	        let feed = res.map(item => item.feed);
 	        let drinking = res.map(item => item.drinking);
@@ -484,6 +549,7 @@ $('.objList').click(function(event){
 	            alert('차트 로딩 실패');
 	         }       
 	      });	
+	};
 });
 </script>
 <!-- 클릭 시 카메라 번호 변경 JS -->

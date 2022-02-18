@@ -151,8 +151,9 @@ public ArrayList<ObjVO> bioObjList() {
 	      return oal;
 	   }
 	
-	public ObjVO Obj_selectONE(String camera_id) {
-
+	public ArrayList<ObjVO> Obj_selectONE(String camera_id) {
+		  ObjVO vo = null;
+	      ArrayList<ObjVO> oal = new ArrayList<ObjVO>();
 		try {
 			connection();
 
@@ -167,9 +168,11 @@ public ArrayList<ObjVO> bioObjList() {
 			while (rs.next()) {
 
 				String getCamera_id= rs.getString("camera_id");
+				String getObject_id = rs.getString("object_id");
 
 
-				vo = new ObjVO(getCamera_id);
+				vo = new ObjVO(getCamera_id,getObject_id);
+				oal.add(vo);
 
 			}
 
@@ -180,6 +183,6 @@ public ArrayList<ObjVO> bioObjList() {
 		} finally {
 			close();
 		}
-		return vo;
+		return oal;
 	}
 }
