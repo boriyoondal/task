@@ -95,7 +95,7 @@ public ArrayList<ObjVO> bioObjList() {
 	      try {
 	         connection();
 
-	         String sql = "select current_dt,avg(drinking) drinking,avg(feed) feed,avg(activity) activity from IntFlow group by current_dt";
+	         String sql = "select substring(current_dt,12,2) current_dt,avg(drinking) drinking,avg(feed) feed,avg(activity) activity from IntFlow group by current_dt";
 	         psmt = conn.prepareStatement(sql);
 
 	         rs = psmt.executeQuery();
@@ -106,7 +106,7 @@ public ArrayList<ObjVO> bioObjList() {
 	            String getFeed = rs.getString("feed");
 	            String getActivity = rs.getString("activity");
 
-	            vo = new ObjVO(getcurrent_dt,getDrinking,getFeed,getActivity);
+	            vo = new ObjVO(getcurrent_dt+"시",getDrinking,getFeed,getActivity);
 	            oal.add(vo);
 	         }
 
@@ -126,7 +126,7 @@ public ArrayList<ObjVO> bioObjList() {
 	      try {
 	         connection();
 
-	         String sql = "select current_dt, drinking, feed, activity from IntFlow where object_id=? order by current_dt asc";
+	         String sql = "select substring(current_dt,12,2) current_dt, drinking, feed, activity from IntFlow where object_id=? order by current_dt asc";
 	         psmt = conn.prepareStatement(sql);
 	         psmt.setString(1, object_id);
 	         rs = psmt.executeQuery();
@@ -137,7 +137,7 @@ public ArrayList<ObjVO> bioObjList() {
 	            String getFeed = rs.getString("feed");
 	            String getActivity = rs.getString("activity");
 
-	            vo = new ObjVO(getcurrent_dt,getDrinking,getFeed,getActivity);
+	            vo = new ObjVO(getcurrent_dt+"시",getDrinking,getFeed,getActivity);
 	            oal.add(vo);
 	         }
 
