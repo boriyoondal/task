@@ -10,148 +10,11 @@
 <head>
 <meta charset="UTF-8">
 <title>IntFlow - BioDataService</title>
+<link rel="stylesheet" href="css/css.css">
 </head>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
-* {
-	font-size: 16px;
-	margin: 0;
-	padding: 0;
-}
 
-#wrap {
-	width: 100%;
-}
-
-#logo {
-	width: 150px;
-	height: 100px;
-	text-align: center;
-	margin: 0px auto;
-}
-
-#frame {
-	background-color: #f1f3f4;
-}
-
-#nav {
-	width: 100%;
-	height: 100px;
-	background: #202124;
-}
-
-#stream {
-	float: left;
-	width: 60%;
-	height: 700px;
-	margin-bottom: 1.5%;
-	/* 	border-radius : 7px 7px 0 0;
-	border : 1px solid #9aa0a6;; */
-}
-
-#camList>ul>li {
-	list-style: none;
-}
-
-#camList {
-	float: left;
-	width: 17%;
-	height: 600px;
-	margin-left: 2%;
-	font-size: 1.6rem;
-	margin-bottom: 1.5%;
-	margin-top: 2%;
-/* 	border-radius : 7px 7px 0 0; */
-	border : 1px solid #9aa0a6;
-	box-shadow: 1px 1px 1px 1px #dadce0;
-}
-
-#objList {
-	float: right;
-	width: 17%;
-	height: 600px;
-	font-size: 1.6rem;
-	margin-bottom: 1.5%;
-	margin-right: 2%;
-	margin-top: 2%;
-/* 	border-radius : 7px 7px 0 0; */
-	border : 1px solid #9aa0a6; 
-	box-shadow: 1px 1px 1px 1px #dadce0;
-}
-
-#graph {
-	clear: both;
-	width: 100%;
-	height: 200px;
-	margin-top: 2%;
-/* 	border-radius: 7px 7px 0 0; */
-	border: 1px solid #9aa0a6;
-}
-
-#framecss {
-	width: 39%;
-	height: 39%;
-/* 	border-radius: 7px 7px 0 0; */
-	border: 1px solid #9aa0a6;
-	display: inline-block;
-	margin: 3% 4%;
-	padding: 1%;
-}
-
-#camList_div {
-	text-align: center;
-}
-
-#objList_div {
-	text-align: center;
-}
-
-#camList_div>button {
-	border: none;
-	background: none;
-	margin: 10% 0;
-	font-size: 1.6rem;
-}
-
-.clicked {
-	color: gold;
-	border: 1px;
-}
-
-#objList_div>button {
-	border: none;
-	background: none;
-	margin: 10% 0;
-	font-size: 1.6rem;
-}
-/* 화면 너비 0 ~ 1200px */
-@media ( max-width : 1220px) {
-	#stream {
-		width: 100%;
-		margin-bottom: 4%;
-	}
-	#camList {
-		width: 43%;
-	}
-	#objList {
-		width: 43%;
-	}
-	#graph {
-		width: 100%;
-	}
-	#objList_div>button {
-		border: none;
-		background: none;
-		margin: 10% 0;
-		font-size: 1rem;
-	}
-	#camList_div>button {
-		border: none;
-		background: none;
-		margin: 10% 0;
-		font-size: 1rem;
-	}
-}
 /* 화면 너비 0 ~ 768px */
 @media ( max-width : 768px) {
 	#nav {
@@ -289,55 +152,8 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 		</section>
 	</div>
 </body>
-<!-- 클릭 시 클릭된 부분 UI 변경 JS -->
-<script>
-var camList = document.getElementsByClassName("camList");
 
-function handleClick(event){
-	console.log(event.target);
-	console.log(event.target.classList);
-	
-	if(event.target.classList[1] === "clicked"){
-		event.target.classList.remove("clicked");
-	}else{
-		for( var i = 0; i < camList.length; i++){
-			camList[i].classList.remove("clicked");
-		}
-		event.target.classList.add("clicked");
-	}
-}
-function init(){
-	for (var i = 0; i<camList.length; i++){
-		camList[i].addEventListener("click",handleClick);
-	}
-}
-init();
-</script>
 
-<script>
-var objList = document.getElementsByClassName("objList");
-
-function handleClick(event){
-	console.log(event.target);
-	console.log(event.target.classList);
-	
-	if(event.target.classList[1] === "clicked"){
-		event.target.classList.remove("clicked");
-	}else{
-		for( var i = 0; i < objList.length; i++){
-			objList[i].classList.remove("clicked");
-		}
-		event.target.classList.add("clicked");
-	}
-}
-function init(){
-	for (var i = 0; i<objList.length; i++){
-		objList[i].addEventListener("click",handleClick);
-	}
-}
-
-init();
-</script>
 <script>
 $('.camList').click(function(event){
 	
@@ -413,7 +229,7 @@ $('.camList').click(function(event){
          }       
       });
 </script>
-<script src="./js/Clock.js"></script>
+
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
@@ -537,29 +353,8 @@ $('.objList').click(function(event){
 });
 </script>
 <!-- 클릭 시 카메라 번호 변경 JS -->
-<script>
-   $(".camList").on('click', function(){
-	  $("#objList_div").show();
-      var camNum = $(this).text();
-      console.log(camNum);
-      if(camNum=='1번 카메라'){
-         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/EUZ8YUxhMNM?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
-         $("#stream").replaceWith(str);
-      }else if(camNum=='2번 카메라'){
-         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/W9Ot_I3pb20?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
-         $("#stream").replaceWith(str);
-      }else if(camNum=='3번 카메라'){
-         var str="<div id='stream'><iframe src='https://www.youtube.com/embed/N9oz7MOS5tI?autoplay=1&mute=1' title='streaming' width='90%' height='600px' style='position: relative; margin: 5%;'></iframe></div>"
-         $("#stream").replaceWith(str);
-      }else if(camNum=='전체 카메라'){
-         var str="<div id='stream'><div id='framecss'><iframe src='https://www.youtube.com/embed/EUZ8YUxhMNM' title='streaming' width='100%' height='100%' style=' float : left;'></iframe></div>"+
-            "<div id='framecss'><iframe src='https://www.youtube.com/embed/W9Ot_I3pb20' title='streaming' width='100%' height='100%' style=' float : left;'></iframe></div>"+
-            "<div id='framecss'><iframe src='https://www.youtube.com/embed/N9oz7MOS5tI' title='streaming' width='100%' height='100%' style=' float : right;'></iframe></div>"+
-            "<div id='framecss' style='display:inline-block; float:right; border:none;''><img src='./images/logo.png' width='100%' height='40%' style='margin-top:15%;'></div></div>"
-            $("#stream").replaceWith(str);
-      }
-      
-   });
-</script>
-
+<script src="./js/Clock.js"></script>
+<script src="./js/camClick.js"></script>
+<script src="./js/camClickEvent.js"></script>
+<script src="./js/objClickEvent.js"></script>
 </html>

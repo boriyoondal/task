@@ -1,0 +1,140 @@
+@charset "UTF-8";
+* {
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+}
+
+#wrap {
+	width: 100%;
+}
+
+#logo {
+	width: 150px;
+	height: 100px;
+	text-align: center;
+	margin: 0px auto;
+}
+
+#frame {
+	background-color: #f1f3f4;
+}
+
+#nav {
+	width: 100%;
+	height: 100px;
+	background: #202124;
+}
+
+#stream {
+	float: left;
+	width: 60%;
+	height: 700px;
+	margin-bottom: 1.5%;
+	/* 	border-radius : 7px 7px 0 0;
+	border : 1px solid #9aa0a6;; */
+}
+
+#camList>ul>li {
+	list-style: none;
+}
+
+#camList {
+	float: left;
+	width: 17%;
+	height: 600px;
+	margin-left: 2%;
+	font-size: 1.6rem;
+	margin-bottom: 1.5%;
+	margin-top: 2%;
+/* 	border-radius : 7px 7px 0 0; */
+	border : 1px solid #9aa0a6;
+	box-shadow: 1px 1px 1px 1px #dadce0;
+}
+
+#objList {
+	float: right;
+	width: 17%;
+	height: 600px;
+	font-size: 1.6rem;
+	margin-bottom: 1.5%;
+	margin-right: 2%;
+	margin-top: 2%;
+/* 	border-radius : 7px 7px 0 0; */
+	border : 1px solid #9aa0a6; 
+	box-shadow: 1px 1px 1px 1px #dadce0;
+}
+
+#graph {
+	clear: both;
+	width: 100%;
+	height: 200px;
+	margin-top: 2%;
+/* 	border-radius: 7px 7px 0 0; */
+	border: 1px solid #9aa0a6;
+}
+
+#framecss {
+	width: 39%;
+	height: 39%;
+/* 	border-radius: 7px 7px 0 0; */
+	border: 1px solid #9aa0a6;
+	display: inline-block;
+	margin: 3% 4%;
+	padding: 1%;
+}
+
+#camList_div {
+	text-align: center;
+}
+
+#objList_div {
+	text-align: center;
+}
+
+#camList_div>button {
+	border: none;
+	background: none;
+	margin: 10% 0;
+	font-size: 1.6rem;
+}
+
+.clicked {
+	color: gold;
+	border: 1px;
+}
+
+#objList_div>button {
+	border: none;
+	background: none;
+	margin: 10% 0;
+	font-size: 1.6rem;
+}
+/* 화면 너비 0 ~ 1200px */
+@media ( max-width : 1220px) {
+	#stream {
+		width: 100%;
+		margin-bottom: 4%;
+	}
+	#camList {
+		width: 43%;
+	}
+	#objList {
+		width: 43%;
+	}
+	#graph {
+		width: 100%;
+	}
+	#objList_div>button {
+		border: none;
+		background: none;
+		margin: 10% 0;
+		font-size: 1rem;
+	}
+	#camList_div>button {
+		border: none;
+		background: none;
+		margin: 10% 0;
+		font-size: 1rem;
+	}
+}
