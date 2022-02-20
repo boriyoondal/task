@@ -91,12 +91,10 @@ ArrayList<ObjVO> objlist = new ArrayList<ObjVO>();
 			</div>
 
 			<div id="objList" style="text-align : center;">
-				<h2 style="text-align : center; margin-top : 8%">개체 목록</h2>
-				
-					<button type="button" class="objList" value="all_obj" style="border: none; background: none; margin: 10% 0; font-size: 1.6rem;">전체 개체</button>
-					<br>
+				<h2 style="text-align : center; margin-top : 8%">개체 목록</h2>					
 				<div id="objList_div" style="display : none;">
-					
+					<button type="button" class="objList" value="all_obj">전체 개체</button>
+					<br>
 <%-- 				<%
 					for (int i = 0; i < bioObjList.size(); i++) {
 					%>
@@ -118,46 +116,9 @@ ArrayList<ObjVO> objlist = new ArrayList<ObjVO>();
 		</section>
 	</div>
 </body>
-<!-- JS -->
-<script src="./js/Clock.js"></script>
-<script src="./js/camClick.js"></script>
-<script src="./js/camClickEvent.js"></script>
-<script src="./js/objClickEvent.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-$('.camList').click(function(event){
-	$('#objList_div').children().remove();
-		console.log('클릭 됨');
- 		var camListval = event.target.value;
- 		console.log(event.target.value);
- 		console.log(camListval);
- 		
- 		$.ajax({
- 			url : 'con_object',
- 			type : 'get',
- 			datatype :'json',
- 			data : {'camera_id' : camListval},
- 			success : function(item){
- 				console.log(item);
- 				var jsonData = JSON.parse(item);
- 				console.log(jsonData); 
- 				
- 				jsonData.forEach(function (str){
- 					var objid = str.object_id
- 					console.log(objid + '번 개체');
- 				 $('#objList_div').append("<button type='button' class='objList' value="+objid+" onclick='objclick()'>"+objid+"번 개체"+"</button><br>");
- 					
- 				});
- 				
- 				
- 			},
- 			error : function(){
- 				alert('error');
- 			}
- 		});
 
-	});
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <!-- 시계열 데이터 ajax -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -224,7 +185,6 @@ $('.camList').click(function(event){
 function objclick(){
 $('.objList').click(function(event){
 	
-	
 	var objListval = event.target.value;
 	console.log(event.target.value);
 	console.log(objListval);
@@ -287,6 +247,7 @@ $('.objList').click(function(event){
 		         }       
 		      });
 	}else{
+		
 	   $.ajax({
 	        url : 'AjaxChart_selectONE',
 	        type : 'get',
@@ -342,6 +303,71 @@ $('.objList').click(function(event){
 	};
 });
 };
+
 </script>
 
+<script>
+$('.camList').click(function(event){
+	
+		console.log('클릭 됨');
+ 		var camListval = event.target.value;
+ 		console.log(event.target.value);
+ 		console.log(camListval);
+ 		
+ 		$('#objList_div').children().remove();
+ 		
+ 		$.ajax({
+ 			url : 'con_object',
+ 			type : 'get',
+ 			datatype :'json',
+ 			data : {'camera_id' : camListval},
+ 			success : function(item){
+ 				console.log(item);
+ 				var jsonData = JSON.parse(item);
+ 				console.log(jsonData); 
+ 				
+ 				jsonData.forEach(function (str){
+ 					var objid = str.object_id
+ 					console.log(objid + '번 개체');
+ 					var str = "<button type='button' class='objList' value="+objid+" onclick='objclick()'>"+objid+"번 개체"+"</button><br>"
+ 				 $('#objList_div').append(str);
+ 					
+ 				});
+
+ 				var objList = document.getElementsByClassName("objList");
+
+ 				function handleClick(event){
+ 					console.log(event.target);
+ 					console.log(event.target.classList);
+ 					
+ 					if(event.target.classList[1] === "clicked"){
+ 						event.target.classList.remove("clicked");
+ 					}else{
+ 						for( var i = 0; i < objList.length; i++){
+ 							objList[i].classList.remove("clicked");
+ 						}
+ 						event.target.classList.add("clicked");
+ 					}
+ 				}
+
+ 				function init(){
+ 					for (var i = 0; i<objList.length; i++){
+ 						objList[i].addEventListener("click",handleClick);
+ 					}
+ 				}
+
+ 				init();
+ 				
+ 			},
+ 			error : function(){
+ 				alert('error');
+ 			}
+ 		});
+
+	});
+</script>
+<!-- JS -->
+<script src="./js/Clock.js"></script>
+<script src="./js/camClick.js"></script>
+<script src="./js/camClickEvent.js"></script>
 </html>
