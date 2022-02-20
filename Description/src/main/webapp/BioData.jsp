@@ -13,42 +13,6 @@
 <link rel="stylesheet" href="css/css.css">
 </head>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<style>
-
-/* 화면 너비 0 ~ 768px */
-@media ( max-width : 768px) {
-	#nav {
-		width: 100%;
-		height: auto;
-		position: relative;
-	}
-	#stream {
-		width: 100%;
-		height: 300px;
-		margin-bottom: 4%;
-	}
-	#camList {
-		width: 45%;
-		height: 200px;
-	}
-	#objList {
-		width: 45%;
-		height: 200px;
-	}
-	#objList_div>button {
-		border: none;
-		background: none;
-		margin: 3% 0;
-		font-size: 1rem;
-	}
-	#camList_div>button {
-		border: none;
-		background: none;
-		margin: 5% 0;
-		font-size: 1rem;
-	}
-}
-</style>
 <body>
 <%
 request.setCharacterEncoding("utf-8");
@@ -63,6 +27,7 @@ String camera_id = request.getParameter("camera_id");
 
 ArrayList<BioVO> bioCamList = dao.bioCamList();
 ArrayList<ObjVO> bioObjList = odao.bioObjList();
+ArrayList<ObjVO> objlist = new ArrayList<ObjVO>();
 %>
 	<div id="wrap">
 
@@ -125,19 +90,21 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 				</div>
 			</div>
 
-			<div id="objList">
+			<div id="objList" style="text-align : center;">
 				<h2 style="text-align : center; margin-top : 8%">개체 목록</h2>
-				<div id="objList_div" style="display : none;">
-					<button type="button" class="objList" value="all_obj">전체 개체</button>
+				
+					<button type="button" class="objList" value="all_obj" style="border: none; background: none; margin: 10% 0; font-size: 1.6rem;">전체 개체</button>
 					<br>
-					<%
+				<div id="objList_div" style="display : none;">
+					
+<%-- 				<%
 					for (int i = 0; i < bioObjList.size(); i++) {
 					%>
 					<button type="button" class="objList" value="<%=bioObjList.get(i).getObject_id()%>"><%=bioObjList.get(i).getObject_id()%>번 개체</button>
 					<br>
 					<%
 					}
-					%>
+					%>  --%>
 
 				</div>
 			</div>
@@ -151,26 +118,46 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 		</section>
 	</div>
 </body>
-
+<!-- JS -->
+<script src="./js/Clock.js"></script>
+<script src="./js/camClick.js"></script>
+<script src="./js/camClickEvent.js"></script>
+<script src="./js/objClickEvent.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 $('.camList').click(function(event){
-	
+	$('#objList_div').children().remove();
 		console.log('클릭 됨');
  		var camListval = event.target.value;
  		console.log(event.target.value);
  		console.log(camListval);
-/* 	
- 		if(camListval == 1){
- 			
- 		}else if(camListval == 2){
- 			
- 		}else if(camListval == 3){
- 			
- 		} */
+ 		
+ 		$.ajax({
+ 			url : 'con_object',
+ 			type : 'get',
+ 			datatype :'json',
+ 			data : {'camera_id' : camListval},
+ 			success : function(item){
+ 				console.log(item);
+ 				var jsonData = JSON.parse(item);
+ 				console.log(jsonData); 
+ 				
+ 				jsonData.forEach(function (str){
+ 					var objid = str.object_id
+ 					console.log(objid + '번 개체');
+ 				 $('#objList_div').append("<button type='button' class='objList' value="+objid+" onclick='objclick()'>"+objid+"번 개체"+"</button><br>");
+ 					
+ 				});
+ 				
+ 				
+ 			},
+ 			error : function(){
+ 				alert('error');
+ 			}
+ 		});
 
 	});
 </script>
-
 <!-- 시계열 데이터 ajax -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -231,8 +218,12 @@ $('.camList').click(function(event){
 
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
+	
 <script>
+
+function objclick(){
 $('.objList').click(function(event){
+	
 	
 	var objListval = event.target.value;
 	console.log(event.target.value);
@@ -350,10 +341,7 @@ $('.objList').click(function(event){
 	      });	
 	};
 });
+};
 </script>
-<!-- JS -->
-<script src="./js/Clock.js"></script>
-<script src="./js/camClick.js"></script>
-<script src="./js/camClickEvent.js"></script>
-<script src="./js/objClickEvent.js"></script>
+
 </html>

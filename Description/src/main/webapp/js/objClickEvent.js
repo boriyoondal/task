@@ -14,6 +14,7 @@ function handleClick(event){
 		event.target.classList.add("clicked");
 	}
 }
+
 function init(){
 	for (var i = 0; i<objList.length; i++){
 		objList[i].addEventListener("click",handleClick);

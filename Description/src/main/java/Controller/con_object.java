@@ -34,6 +34,7 @@ public class con_object extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		out.print(gson.toJson(oal));
+		System.out.print(camera_id);
 	}
 
 }

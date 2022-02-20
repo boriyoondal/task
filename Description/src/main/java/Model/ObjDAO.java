@@ -157,7 +157,7 @@ public ArrayList<ObjVO> bioObjList() {
 		try {
 			connection();
 
-			String sql = "select distinct object_id from IntFlow where camera_id=?";
+			String sql = "select distinct object_id from IntFlow where camera_id = ?";
 			
 			psmt = conn.prepareStatement(sql);
 			
@@ -167,11 +167,10 @@ public ArrayList<ObjVO> bioObjList() {
 
 			while (rs.next()) {
 
-				String getCamera_id= rs.getString("camera_id");
 				String getObject_id = rs.getString("object_id");
+				
 
-
-				vo = new ObjVO(getCamera_id,getObject_id);
+				vo = new ObjVO(getObject_id);
 				oal.add(vo);
 
 			}
