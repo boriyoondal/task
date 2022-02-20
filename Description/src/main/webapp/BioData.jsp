@@ -50,7 +50,7 @@
 }
 </style>
 <body>
-	<%
+<%
 request.setCharacterEncoding("utf-8");
 
 ObjVO ovo = new ObjVO();
@@ -63,7 +63,6 @@ String camera_id = request.getParameter("camera_id");
 
 ArrayList<BioVO> bioCamList = dao.bioCamList();
 ArrayList<ObjVO> bioObjList = odao.bioObjList();
-
 %>
 	<div id="wrap">
 
@@ -153,7 +152,6 @@ ArrayList<ObjVO> bioObjList = odao.bioObjList();
 	</div>
 </body>
 
-
 <script>
 $('.camList').click(function(event){
 	
@@ -172,6 +170,7 @@ $('.camList').click(function(event){
 
 	});
 </script>
+
 <!-- 시계열 데이터 ajax -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -352,7 +351,7 @@ $('.objList').click(function(event){
 	};
 });
 </script>
-<!-- 클릭 시 카메라 번호 변경 JS -->
+<!-- JS -->
 <script src="./js/Clock.js"></script>
 <script src="./js/camClick.js"></script>
 <script src="./js/camClickEvent.js"></script>
